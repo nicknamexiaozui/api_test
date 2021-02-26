@@ -1,0 +1,60 @@
+'''
+若IP和路径发生变化请修改study.py对应的接口地址，切换用户时注意修改用户信息，包含用户证书，私钥，密码，私钥口令等等
+'''
+# cert = '-----BEGIN CERTIFICATE-----\n\
+# MIIClzCCAjugAwIBAgIIEAAAAADfq14wDAYIKoEcz1UBg3UFADAfMQswCQYDVQQG\nEwJDTjEQMA4GA1UEAwwHY2EtdGVzdDAeFw0yMTAxMDYwNjAzMzlaFw0yNjAxMDUw\n\
+# NjAzMzlaMDgxEDAOBgNVBAoMB29yZ3BlZXIxJDAiBgNVBAMMG0hYWkpM56CU5Y+R\n5Lit5b+DdGVzdOS8geS4mjBZMBMGByqGSM49AgEGCCqBHM9VAYItA0IABDXIM5Ys\n\
+# saUmSd9Pkxl13lW/4Mbl5nFO+rkHH8PCZlB0RU+0V1Xcu31AD2ttaeeAygMCU1zI\nOj1fMkhCje9PYIijggFEMIIBQDAdBgNVHQ4EFgQUqOemc0QoKSuNbPkcoTS0DD2b\n\
+# PlkwHwYDVR0jBBgwFoAU1NekO2mKPuxPlJnjkFfeZ+Gpjv0wCwYDVR0PBAQDAgP4\nMIHTBgNVHR8EgcswgcgwY6A8oDqGOGxkYXA6Ly8yMDIuMTAwLjEwOC40MDozODkv\n\
+# Y249ZnVsbENybC5jcmwsQ049Y2EtdGVzdCxDPUNOoiOkITAfMQswCQYDVQQGEwJD\nTjEQMA4GA1UEAwwHY2EtdGVzdDBhoDqgOIY2aHR0cDovLzIwMi4xMDAuMTA4LjQw\n\
+# OjgxODEvdGVzdGNhLzEwMDAwMDAwMDBERkFCMDAuY3JsoiOkITAfMQswCQYDVQQG\nEwJDTjEQMA4GA1UEAwwHY2EtdGVzdDAMBgNVHRMEBTADAQEAMA0GBVUdh2cSBAR1\n\
+# c2VyMAwGCCqBHM9VAYN1BQADSAAwRQIhAOxtwOKRLxNH1wbVcY6h03RkFA4gq5Rp\nlGy+57/vvwoHAiBDs2fGM1MEn2ZMHXuxLxaQYgN50QLlTZaRSloevMEX3A==\n\
+# -----END CERTIFICATE-----'
+# privatekey = '48193839dd0a3cef1ab817d26b5f9784b7987d7b465a5d5cc148d3e6a0ffde27cf2a77e7ce026500e024e4' \
+# 			 'b0d098922a482b3d6f2103064e00dbcb3e8aa30df7af5e3bbc92496e02dca2c83520160d75b5515bb18c71532' \
+# 			 '5d608a7f0e4a6d33d528734ec7a111d7660ab82dc38b6510a17c83e4c1a12b26be6f5dde2e8ba5fd5767177a6af971' \
+# 			 'c79290e26491741e38492727f6325807d56f85a987c9eca018a696eac2549797a710bc2f0497a859bd9fd3cea54660912' \
+# 			 '862ba494306cd079615e15b49546c9d841a991de0118347c814e711803d0b15a80a3c79172421c1cfdcbeed561bd4c16ff26d7' \
+# 			 '4d113049a8db5a59a0873dfad0718823f6523ba0d5f58711e7d72f2ba4c94c6dc77df887c5f9'
+cert='-----BEGIN CERTIFICATE-----\n\
+MIICijCCAi2gAwIBAgIIEAAAAADgrX8wDAYIKoEcz1UBg3UFADAfMQswCQYDVQQG\n\
+EwJDTjEQMA4GA1UEAwwHY2EtdGVzdDAeFw0yMTAxMTIwNTM1MjZaFw0yNjAxMTEw\n\
+NTM1MjZaMCoxEDAOBgNVBAoMB29yZ3BlZXIxFjAUBgNVBAMMDUhYWkpMMTIzNDU2\n\
+NzgwWTATBgcqhkjOPQIBBggqgRzPVQGCLQNCAATYvwmrhKqoPxi5DmOUFIZTRv4/\n\
+crAjqgFhbiDSJyMhFKxjIIjrrLxz5v3DzFIlXtgtG0brf6TXkESEUA1kkD3to4IB\n\
+RDCCAUAwHQYDVR0OBBYEFNif0GyCQNda5fbNxwkVfZ3D9L5DMB8GA1UdIwQYMBaA\n\
+FNTXpDtpij7sT5SZ45BX3mfhqY79MAsGA1UdDwQEAwID+DCB0wYDVR0fBIHLMIHI\n\
+MGOgPKA6hjhsZGFwOi8vMjAyLjEwMC4xMDguNDA6Mzg5L2NuPWZ1bGxDcmwuY3Js\n\
+LENOPWNhLXRlc3QsQz1DTqIjpCEwHzELMAkGA1UEBhMCQ04xEDAOBgNVBAMMB2Nh\n\
+LXRlc3QwYaA6oDiGNmh0dHA6Ly8yMDIuMTAwLjEwOC40MDo4MTgxL3Rlc3RjYS8x\n\
+MDAwMDAwMDAwRTBBRDAwLmNybKIjpCEwHzELMAkGA1UEBhMCQ04xEDAOBgNVBAMM\n\
+B2NhLXRlc3QwDAYDVR0TBAUwAwEBADANBgVVHYdnEgQEdXNlcjAMBggqgRzPVQGD\n\
+dQUAA0kAMEYCIQCEUHhIdpQP2NCY1i6ni8tlF9ZXCZfkOylKPOqGAAorjQIhAN4k\n\
+LCDz8PeEG5l9RCSyRZ4PyZQaQFoYEcnb3uLxMGqe\n\
+-----END CERTIFICATE-----'
+privatekey = '48193839dd0a3cef1ab817d26b5f9784b7987d7b465a5d5cc148d3e6a0ffde27cf2a77e7ce026500e024e4b0d098922a482b3d6f2103064e00dbcb3e8aa30df7fc0940dc49a6dcf4ee6d0ffa797b1e03d1e067b552c082c539ad2aaa0d64a17d9192546e4a1bfef2b431605ef4147a559d0f3ccbd60e4250161c3ae4d7755981ca32ec08475f5ecbf97190226b9fa4a215ba5a92cb5ae850426317385068287de9ab48de2c6c5dd4ac5b462be473a9f487ceebbc7db9c92b314ae1ec4e4d3be36a79b1270a9ccbbe02565e2918bcfcc3d0f4fbadae7d418215495b1b3e55283d50544f4770c0bcf726e66645203e8eab5a59a0873dfad0718823f6523ba0d5f58711e7d72f2ba4c94c6dc77df887c5f9'
+username = 'HXZJL12345678'
+password = '8159e7aa80fea3580da91ea013fe71af'
+file_path=r'D:\MP3\Rauf_Faik-колыбельная.flac'
+pin_code = '111111'
+grant_type='password'
+#后台服务器地址
+ip = "脱敏IP"
+#获取token地址
+url_token = '/auth/oauth/token'
+#文件上传地址
+url_uploadFileBatch = '/interface/sdkChain/uploadFileBatch'
+#saveEvidence接口地址
+url_saveEvidence = '/interface/sdkChain/saveEvidence'
+#endorseProposal接口地址
+url_endorseProposal = '/interface/sdkChain/endorseProposal'
+#evidenceChain接口地址
+url_evidenceChain = '/interface/sdkChain/evidenceChain'
+#uploadNotaryChain接口地址
+url_uploadNotaryChain = '/interface/sdkChain/uploadNotaryChain'
+if __name__ == '__main__':
+	a=print(type(cert))
+	if a == type({'12':'12'}):
+		print('zifuchuan')
+	else:
+		print('jieshu')
